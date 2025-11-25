@@ -30,15 +30,24 @@
     });
 
     Cesium.KmlDataSource.load(KML_URL, {
-      camera: viewer.scene.camera,
-      clampToGround: true
-    }).then(function (dataSource) {
-      viewer.dataSources.add(dataSource);
-      viewer.zoomTo(dataSource);
-    }).catch(function (err) {
-      console.error('Error cargando KML:', err);
-      alert('Error cargando KML. Revisa la consola del navegador para más detalles.');
+    camera: viewer.scene.camera,
+    canvas: viewer.scene.canvas,
+    clampToGround: true
+})
+.then(function (dataSource) {
+    viewer.dataSources.add(dataSource);
+
+    // Forzar movimiento de cámara al KML
+    viewer.flyTo(dataSource, {
+        duration: 2,
+        maximumHeight: 20000 // Ajuste para no quedar muy lejos
     });
+})
+.catch(function (err) {
+    console.error('Error cargando KML:', err);
+    alert('Error cargando KML. Revisa la consola del navegador para más detalles.');
+});
+
   </script>
 </body>
 </html>
